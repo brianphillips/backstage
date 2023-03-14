@@ -21,6 +21,8 @@ const env = jest.fn(async (name: string) => {
     {
       SECRET: 'my-secret',
       TOKEN: 'my-token',
+      IS_TRUE: 'true',
+      IS_FALSE: 'false',
     } as { [name: string]: string }
   )[name];
 });
@@ -78,6 +80,14 @@ describe('substituteTransform', () => {
     ).resolves.toEqual({
       applied: true,
       value: 'foo ${ESCAPE_ME} $${ESCAPE_ME_TOO} ${}',
+    });
+    await expect(substituteTransform('${IS_TRUE}', '/')).resolves.toEqual({
+      applied: true,
+      value: true,
+    });
+    await expect(substituteTransform('${IS_FALSE}', '/')).resolves.toEqual({
+      applied: true,
+      value: false,
     });
   });
 });

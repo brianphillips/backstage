@@ -79,7 +79,16 @@ export function createIncludeTransform(
         }
       case '$env':
         try {
-          return { applied: true, value: await env(includeValue) };
+          const value = await env(includeValue);
+
+          // Handle boolean type coercion consistently.
+          if (value && /^(?:y|yes|true|1|on)$/i.test(value)) {
+            return { applied: true, value: true };
+          } else if (value && /^(?:n|no|false|0|off)$/i.test(value)) {
+            return { applied: true, value: false };
+          }
+
+          return { applied: true, value };
         } catch (error) {
           throw new Error(`failed to read env ${includeValue}, ${error}`);
         }

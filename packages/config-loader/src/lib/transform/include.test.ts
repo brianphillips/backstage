@@ -27,6 +27,8 @@ const env = jest.fn(async (name: string) => {
   return (
     {
       SECRET: 'my-secret',
+      IS_TRUE: 'true',
+      IS_FALSE: 'false',
     } as { [name: string]: string }
   )[name];
 });
@@ -114,6 +116,16 @@ describe('includeTransform', () => {
       applied: true,
       value: undefined,
     });
+    await expect(includeTransform({ $env: 'IS_TRUE' }, root)).resolves.toEqual({
+      applied: true,
+      value: true,
+    });
+    await expect(includeTransform({ $env: 'IS_FALSE' }, root)).resolves.toEqual(
+      {
+        applied: true,
+        value: false,
+      },
+    );
   });
 
   it('should include config files', async () => {

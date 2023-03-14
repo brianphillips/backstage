@@ -41,6 +41,15 @@ export function createSubstitutionTransform(env: EnvFunc): TransformFunc {
     if (parts.some(part => part === undefined)) {
       return { applied: true, value: undefined };
     }
-    return { applied: true, value: parts.join('') };
+
+    // Handle boolean type coercion consistently.
+    const value = parts.join('');
+    if (/^(?:y|yes|true|1|on)$/i.test(value)) {
+      return { applied: true, value: true };
+    } else if (/^(?:n|no|false|0|off)$/i.test(value)) {
+      return { applied: true, value: false };
+    }
+
+    return { applied: true, value };
   };
 }
