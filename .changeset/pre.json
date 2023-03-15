@@ -213,5 +213,15 @@
     "@backstage/plugin-vault-backend": "0.2.10",
     "@backstage/plugin-xcmetrics": "0.2.36"
   },
-  "changesets": []
+  "changesets": [
+    "create-app-1678891608",
+    "curly-jobs-kneel",
+    "hungry-lies-cry",
+    "hungry-monkeys-reply",
+    "khaki-doors-compare",
+    "old-cougars-sit",
+    "short-panthers-float",
+    "thirty-crabs-tell",
+    "twelve-parrots-camp"
+  ]
 }

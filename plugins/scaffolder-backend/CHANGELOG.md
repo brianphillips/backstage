@@ -1,5 +1,26 @@
 # @backstage/plugin-scaffolder-backend
 
+## 1.12.1-next.0
+
+### Patch Changes
+
+- e27ddc36dad: Added a possibility to cancel the running task (executing of a scaffolder template)
+- Updated dependencies
+  - @backstage/plugin-scaffolder-node@0.1.2-next.0
+  - @backstage/backend-common@0.18.3
+  - @backstage/backend-plugin-api@0.5.0
+  - @backstage/backend-tasks@0.5.0
+  - @backstage/catalog-client@1.4.0
+  - @backstage/catalog-model@1.2.1
+  - @backstage/config@1.0.7
+  - @backstage/errors@1.1.5
+  - @backstage/integration@1.4.3
+  - @backstage/types@1.0.2
+  - @backstage/plugin-auth-node@0.2.12
+  - @backstage/plugin-catalog-backend@1.8.0
+  - @backstage/plugin-catalog-node@1.3.4
+  - @backstage/plugin-scaffolder-common@1.2.6
+
 ## 1.12.0
 
 ### Minor Changes

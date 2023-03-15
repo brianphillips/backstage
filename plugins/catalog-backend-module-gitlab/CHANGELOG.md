@@ -1,5 +1,24 @@
 # @backstage/plugin-catalog-backend-module-gitlab
 
+## 0.1.15-next.0
+
+### Patch Changes
+
+- 7b1b7bfdb7b: The gitlab org data integration now makes use of the GraphQL API to determine
+  the relationships between imported User and Group entities, effectively making
+  this integration usable without an administrator account's Personal Access
+  Token.
+- Updated dependencies
+  - @backstage/backend-common@0.18.3
+  - @backstage/backend-plugin-api@0.5.0
+  - @backstage/backend-tasks@0.5.0
+  - @backstage/catalog-model@1.2.1
+  - @backstage/config@1.0.7
+  - @backstage/errors@1.1.5
+  - @backstage/integration@1.4.3
+  - @backstage/types@1.0.2
+  - @backstage/plugin-catalog-node@1.3.4
+
 ## 0.1.14
 
 ### Patch Changes
