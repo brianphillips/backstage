@@ -30,32 +30,32 @@ import { MiddlewareFactory } from './MiddlewareFactory';
 import { ConfigReader } from '@backstage/config';
 
 describe('MiddlewareFactory', () => {
+  const childLogger = {
+    info: jest.fn(),
+    warn: jest.fn(),
+    error: jest.fn(),
+    debug: jest.fn(),
+    child: jest.fn(),
+  };
+
+  const logger = {
+    info: jest.fn(),
+    warn: jest.fn(),
+    error: jest.fn(),
+    debug: jest.fn(),
+    child: () => childLogger,
+  };
+
+  const middleware = MiddlewareFactory.create({
+    logger,
+    config: new ConfigReader({}),
+  });
+
+  beforeEach(() => {
+    jest.resetAllMocks();
+  });
+
   describe('middleware.error', () => {
-    const childLogger = {
-      info: jest.fn(),
-      warn: jest.fn(),
-      error: jest.fn(),
-      debug: jest.fn(),
-      child: jest.fn(),
-    };
-
-    const logger = {
-      info: jest.fn(),
-      warn: jest.fn(),
-      error: jest.fn(),
-      debug: jest.fn(),
-      child: () => childLogger,
-    };
-
-    const middleware = MiddlewareFactory.create({
-      logger,
-      config: new ConfigReader({}),
-    });
-
-    beforeEach(() => {
-      jest.resetAllMocks();
-    });
-
     it('gives default code and message', async () => {
       const app = express();
       app.use('/breaks', () => {
@@ -253,6 +253,29 @@ describe('MiddlewareFactory', () => {
       await request(app).get('/NotFound');
 
       expect(childLogger.error).toHaveBeenCalled();
+    });
+  });
+
+  describe('middleware.logger', () => {
+    it('logs incoming requests at the info level by default', async () => {
+      const app = express();
+      app.use(middleware.logging());
+      app.use('/test', (_, res) => res.sendStatus(200));
+      await request(app).get('/test');
+      expect(childLogger.info).toHaveBeenCalledWith(
+        expect.stringContaining('GET /test'),
+      );
+    });
+
+    it('allows log level to be adjusted', async () => {
+      const app = express();
+      app.use(middleware.logging('debug'));
+      app.use('/test', (_, res) => res.sendStatus(200));
+      await request(app).get('/test');
+      expect(childLogger.info).toHaveBeenCalledTimes(0);
+      expect(childLogger.debug).toHaveBeenCalledWith(
+        expect.stringContaining('GET /test'),
+      );
     });
   });
 });

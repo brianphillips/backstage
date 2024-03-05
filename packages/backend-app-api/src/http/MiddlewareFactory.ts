@@ -136,7 +136,9 @@ export class MiddlewareFactory {
    *
    * @returns An Express request handler
    */
-  logging(): RequestHandler {
+  logging(
+    logLevel: keyof Omit<LoggerService, 'child'> = 'info',
+  ): RequestHandler {
     const logger = this.#logger.child({
       type: 'incomingRequest',
     });
@@ -144,7 +146,7 @@ export class MiddlewareFactory {
     return morgan('combined', {
       stream: {
         write(message: string) {
-          logger.info(message.trimEnd());
+          logger[logLevel](message.trimEnd());
         },
       },
     });
